@@ -52,3 +52,4 @@ Backend integration is intentionally removed from the UI layer for now. See the 
 - `--tunnel` depends on ngrok and can fail on some networks. Prefer LAN when your phone and laptop are on the same Wi-Fi.
 - The app now uses local mock data and local UI flows only.
 # labour-app
+# labour-app

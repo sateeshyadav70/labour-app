@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Fixora",
+    "slug": "worksetu",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-location"
+    ],
+    "android": {
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "ios": {
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Fixora uses your location to show nearby home services."
+      }
+    },
+    "splash": {
+      "backgroundColor": "#0f172a"
+    }
+  }
+}

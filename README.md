@@ -53,3 +53,4 @@ Backend integration is intentionally removed from the UI layer for now. See the 
 - The app now uses local mock data and local UI flows only.
 # labour-app
 # labour-app
+# labour-app

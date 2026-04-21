@@ -57,3 +57,4 @@ Backend integration is intentionally removed from the UI layer for now. See the 
 # labourappfrontend
 # labourappfrontend
 # labourappfrontend
+# labour-appfrontend

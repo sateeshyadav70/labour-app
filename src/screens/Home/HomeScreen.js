@@ -7,10 +7,15 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
+  StatusBar,
 } from "react-native";
 import * as Location from "expo-location";
+import { useAuth } from "../../context/AuthContext";
 import ServiceCard from "../../components/ServiceCard";
+import ProfileAvatar from "../../components/ProfileAvatar";
 import { getFallbackServices, loadServices } from "../../data/serviceCatalog";
+import { resolveProfileImage } from "../../utils/profileImage";
 
 const getLocationLabel = async (coords) => {
   try {
@@ -29,9 +34,12 @@ const getLocationLabel = async (coords) => {
 };
 
 export default function HomeScreen({ navigation, onLogout }) {
+  const { currentUser } = useAuth();
   const [locationLabel, setLocationLabel] = useState("Fetching your location...");
   const [locationState, setLocationState] = useState("loading");
   const [services, setServices] = useState(() => getFallbackServices());
+  const userName = currentUser?.name || "Fixora User";
+  const userImage = resolveProfileImage(currentUser || {}, userName);
 
   useEffect(() => {
     let mounted = true;
@@ -91,20 +99,21 @@ export default function HomeScreen({ navigation, onLogout }) {
   }, []);
 
   const renderService = ({ item }) => (
-    <ServiceCard
-      title={item.title}
-      color={item.color}
-      ratePerHour={item.ratePerHour}
-      badgeText={item.badgeText}
-      serviceId={item.illustrationKey || item.id}
-      onPress={() =>
-        navigation.navigate("Workers", {
-          service: item,
-          serviceId: item.id,
-          serviceTitle: item.title,
-        })
-      }
-    />
+      <ServiceCard
+        title={item.title}
+        color={item.color}
+        ratePerHour={item.ratePerHour}
+        badgeText={item.badgeText}
+        serviceId={item.illustrationKey || item.id}
+        imageUri={item.image}
+        onPress={() =>
+          navigation.navigate("ServiceDetail", {
+            service: item,
+            serviceId: item.id,
+            serviceTitle: item.title,
+          })
+        }
+      />
   );
 
   const ServiceHeader = () => (
@@ -161,6 +170,16 @@ export default function HomeScreen({ navigation, onLogout }) {
             <Text style={styles.brandSub}>Home services with a softer premium feel</Text>
           </View>
           <Pressable onPress={() => navigation.navigate("Profile")} style={styles.profileButton}>
+            <ProfileAvatar
+              name={userName}
+              imageUri={userImage}
+              size={34}
+              borderRadius={12}
+              backgroundColor="#fff"
+              fallbackColor="#12352d"
+              showRing={false}
+              style={styles.profileAvatar}
+            />
             <Text style={styles.profileButtonText}>Profile</Text>
           </Pressable>
         </View>
@@ -231,7 +250,7 @@ const styles = StyleSheet.create({
   },
   fixedHeader: {
     paddingHorizontal: 16,
-    paddingTop: 12,
+    paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 12) + 8 : 12,
     paddingBottom: 10,
     backgroundColor: "transparent",
     zIndex: 20,
@@ -262,18 +281,25 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingHorizontal: 16,
     paddingBottom: 10,
+    paddingTop: Platform.OS === "android" ? 4 : 0,
     zIndex: 15,
     elevation: 3,
   },
   profileButton: {
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
     borderRadius: 14,
     backgroundColor: "#0f172a",
+    flexDirection: "row",
+    alignItems: "center",
   },
   profileButtonText: {
     color: "#fff",
     fontWeight: "800",
+    marginLeft: 8,
+  },
+  profileAvatar: {
+    marginLeft: -2,
   },
   locationBar: {
     backgroundColor: "rgba(255,255,255,0.82)",

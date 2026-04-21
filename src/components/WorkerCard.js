@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import ProfileAvatar from "./ProfileAvatar";
 
 export default function WorkerCard({ worker, onPress }) {
   const hourlyRate = worker.hourlyRate ?? worker.price ?? 0;
@@ -14,9 +15,15 @@ export default function WorkerCard({ worker, onPress }) {
       <View style={styles.row}>
         <View style={styles.avatarWrap}>
           <View style={styles.avatarRing} />
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{worker.name.slice(0, 1).toUpperCase()}</Text>
-          </View>
+          <ProfileAvatar
+            name={worker.name}
+            imageUri={worker.profileImage || worker.avatar || worker.images?.[0] || null}
+            size={52}
+            borderRadius={18}
+            showRing={false}
+            backgroundColor="#12352d"
+            fallbackColor="#ffffff"
+          />
         </View>
         <View style={styles.info}>
           <View style={styles.titleRow}>
@@ -85,11 +92,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#12352d",
     alignItems: "center",
     justifyContent: "center",
-  },
-  avatarText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "800",
   },
   info: {
     flex: 1,

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
+import ProfileAvatar from "../../components/ProfileAvatar";
 import { apiGet, getApiErrorMessage, unwrapApiResponse } from "../../utils/api";
+import { resolveProfileImage } from "../../utils/profileImage";
 
 const listSkills = (skills = []) => (Array.isArray(skills) ? skills.filter(Boolean) : []);
 
@@ -34,6 +36,7 @@ export default function WorkerProfileScreen({ onLogout }) {
   }, [authToken]);
 
   const profile = worker || currentUser || {};
+  const profileImage = resolveProfileImage(profile, profile.name || "Worker");
   const skills = listSkills(profile.skills);
   const ratingText =
     profile.rating || profile.numReviews
@@ -43,9 +46,22 @@ export default function WorkerProfileScreen({ onLogout }) {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
       <View style={styles.hero}>
-        <Text style={styles.brand}>Fixora Worker</Text>
-        <Text style={styles.title}>{profile.name || "Worker profile"}</Text>
-        <Text style={styles.subtitle}>{profile.email || "Your worker account details"}</Text>
+        <View style={styles.heroTop}>
+          <View>
+            <Text style={styles.brand}>Fixora Worker</Text>
+            <Text style={styles.title}>{profile.name || "Worker profile"}</Text>
+            <Text style={styles.subtitle}>{profile.email || "Your worker account details"}</Text>
+          </View>
+          <ProfileAvatar
+            name={profile.name}
+            imageUri={profileImage}
+            size={64}
+            borderRadius={22}
+            backgroundColor="#ffffff"
+            fallbackColor="#12352d"
+            showRing={false}
+          />
+        </View>
       </View>
 
       <View style={styles.card}>
@@ -117,6 +133,12 @@ const styles = StyleSheet.create({
     padding: 18,
     marginTop: 12,
     marginBottom: 14,
+  },
+  heroTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 12,
   },
   brand: {
     color: "#dcfce7",

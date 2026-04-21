@@ -9,6 +9,7 @@ const normalizeService = (service, index = 0) => ({
   badgeText: service.badgeText || "",
   sortOrder: service.sortOrder ?? index + 1,
   illustrationKey: service.illustrationKey || service.id,
+  image: service.image || service.imageUrl || null,
 });
 
 export const getFallbackServices = () =>

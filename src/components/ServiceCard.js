@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import ServiceIllustration from "./ServiceIllustration";
 
 export default function ServiceCard({
@@ -9,6 +9,7 @@ export default function ServiceCard({
   ratePerHour,
   badgeText,
   serviceId,
+  imageUri,
   onPress,
 }) {
   return (
@@ -23,14 +24,15 @@ export default function ServiceCard({
         <View style={styles.tileArt}>
           <View style={[styles.artGlow, { backgroundColor: color }]} />
           <View style={styles.artPlate}>
-            <ServiceIllustration serviceId={serviceId} color={color} />
+            {imageUri ? (
+              <Image source={{ uri: imageUri }} style={styles.serviceImage} resizeMode="cover" />
+            ) : (
+              <ServiceIllustration serviceId={serviceId} color={color} />
+            )}
           </View>
           <View style={styles.baseLine} />
         </View>
 
-        <View pointerEvents="none" style={styles.plusButton}>
-          <Text style={styles.plusText}>+</Text>
-        </View>
       </View>
 
       <View style={styles.meta}>
@@ -116,6 +118,12 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
     elevation: 2,
+    overflow: "hidden",
+  },
+  serviceImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 26,
   },
   baseLine: {
     position: "absolute",
@@ -124,31 +132,6 @@ const styles = StyleSheet.create({
     height: 5,
     borderRadius: 999,
     backgroundColor: "rgba(15, 23, 42, 0.08)",
-  },
-  plusButton: {
-    position: "absolute",
-    right: 10,
-    bottom: 10,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: "#fff",
-    borderWidth: 1.5,
-    borderColor: "#22c55e",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#0f172a",
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
-  },
-  plusText: {
-    color: "#22c55e",
-    fontSize: 18,
-    lineHeight: 18,
-    fontWeight: "700",
-    marginTop: -1,
   },
   meta: {
     paddingTop: 8,

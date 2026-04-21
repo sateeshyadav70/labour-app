@@ -1,6 +1,8 @@
 import React from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
+import ProfileAvatar from "../../components/ProfileAvatar";
+import { resolveProfileImage } from "../../utils/profileImage";
 
 function ProfileItem({ icon, title, subtitle, onPress }) {
   return (
@@ -21,7 +23,17 @@ export default function ProfileScreen({ navigation, onLogout }) {
   const { currentUser } = useAuth();
   const accountName = currentUser?.name || "Fixora User";
   const accountEmail = currentUser?.email || "Member of Fixora home services";
+  const accountImage = resolveProfileImage(currentUser, accountName);
   const supportText = "Call us at +91-98765-43210 or email help@fixora.in";
+
+  const navigateTo = (routeName, params) => {
+    const parentNavigator = navigation.getParent?.();
+    if (parentNavigator?.navigate) {
+      parentNavigator.navigate(routeName, params);
+      return;
+    }
+    navigation.navigate(routeName, params);
+  };
 
   const showInfo = (title, message) => {
     Alert.alert(title, message);
@@ -38,9 +50,15 @@ export default function ProfileScreen({ navigation, onLogout }) {
           <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
             <Text style={styles.backButtonText}>‹ Back</Text>
           </Pressable>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>FX</Text>
-          </View>
+          <ProfileAvatar
+            name={accountName}
+            imageUri={accountImage}
+            size={60}
+            borderRadius={20}
+            backgroundColor="#ffffff"
+            fallbackColor="#12352d"
+            showRing={false}
+          />
         </View>
         <Text style={styles.brand}>Fixora</Text>
         <Text style={styles.title}>Account & Support</Text>
@@ -51,17 +69,36 @@ export default function ProfileScreen({ navigation, onLogout }) {
 
       <View style={styles.card}>
         <Text style={styles.sectionLabel}>Profile</Text>
-        <Text style={styles.profileName}>{accountName}</Text>
-        <Text style={styles.profileMeta}>{accountEmail}</Text>
+        <View style={styles.profileRow}>
+          <View style={styles.profileTextWrap}>
+            <Text style={styles.profileName}>{accountName}</Text>
+            <Text style={styles.profileMeta}>{accountEmail}</Text>
+          </View>
+          <View style={styles.profileBadge}>
+            <Text style={styles.profileBadgeText}>Active</Text>
+          </View>
+        </View>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         <ProfileItem
+          icon="♥"
+          title="Wishlist"
+          subtitle="Saved workers and services"
+          onPress={() => navigateTo("Wishlist")}
+        />
+        <ProfileItem
+          icon="🛒"
+          title="Cart"
+          subtitle="Multiple services before checkout"
+          onPress={() => navigateTo("Cart")}
+        />
+        <ProfileItem
           icon="💳"
           title="Payment History"
           subtitle="View Razorpay payments and booking links"
-          onPress={() => navigation.navigate("Payment")}
+          onPress={() => navigateTo("Payment")}
         />
         <ProfileItem
           icon="📦"
@@ -256,6 +293,26 @@ const styles = StyleSheet.create({
   },
   profileMeta: {
     color: "#64748b",
+  },
+  profileRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  profileTextWrap: {
+    flex: 1,
+  },
+  profileBadge: {
+    backgroundColor: "#dcfce7",
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  profileBadgeText: {
+    color: "#14532d",
+    fontWeight: "900",
+    fontSize: 12,
   },
   section: {
     marginBottom: 18,

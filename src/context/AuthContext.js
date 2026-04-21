@@ -18,11 +18,12 @@ const normalizeSession = (value) => {
 
   return {
     token,
-    accountType: "user",
+    accountType: value.accountType || "user",
     user,
-    worker: null,
+    worker: value.worker || null,
   };
 };
+
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);

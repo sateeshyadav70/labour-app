@@ -63,7 +63,14 @@ export default function WorkerListScreen({ navigation, route }) {
         renderItem={({ item }) => (
           <WorkerCard
             worker={item}
-            onPress={() => navigation.navigate("WorkerProfile", { worker: item })}
+            onPress={() =>
+              navigation.navigate("WorkerProfile", {
+                worker: item,
+                service,
+                serviceTitle: serviceTitle || service?.title || item.serviceId,
+                serviceImage: service?.image || item.images?.[0] || null,
+              })
+            }
           />
         )}
         ListEmptyComponent={

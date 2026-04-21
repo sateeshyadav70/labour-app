@@ -8,6 +8,7 @@ export const services = [
     ratePerHour: 249,
     sortOrder: 1,
     illustrationKey: "electrician",
+    image: "https://tse3.mm.bing.net/th/id/OIP.irSD1YHufeGxqFzxopKYhAHaGP?pid=Api&h=220&P=0",
   },
   {
     id: "plumber",
@@ -18,6 +19,7 @@ export const services = [
     ratePerHour: 199,
     sortOrder: 2,
     illustrationKey: "plumber",
+    image: "https://tse3.mm.bing.net/th/id/OIP.fAT2UZVEfRnV6dnELEyoPwHaE8?pid=Api&h=220&P=0",
   },
   {
     id: "washroom-cleaner",
@@ -28,6 +30,7 @@ export const services = [
     ratePerHour: 179,
     sortOrder: 3,
     illustrationKey: "washroom-cleaner",
+    image: "https://img.freepik.com/premium-photo/cleaning-cleaner-house-women-maid-green-home-interior_488220-57358.jpg",
   },
   {
     id: "room-cleaner",
@@ -39,16 +42,18 @@ export const services = [
     badgeText: "₹30 OFF",
     sortOrder: 4,
     illustrationKey: "room-cleaner",
+    image: "https://tse1.mm.bing.net/th/id/OIP.jYh2B-zW0Gl3L1La-lcJCwHaE7?pid=Api&h=220&&h=220&P=0",
   },
   {
     id: "crop-cutter",
-    title: "Crop Cutter",
+    title: "Grass Cutter",
     icon: "🌾",
-    description: "Field crop cutting and seasonal harvesting support.",
+    description: "Grass cutting and seasonal outdoor cutting support.",
     color: "#84cc16",
     ratePerHour: 299,
     sortOrder: 5,
     illustrationKey: "crop-cutter",
+    image: "https://tse4.mm.bing.net/th/id/OIP.CBHv7Ty5baP0_VxO1N2EiwHaHa?pid=Api&h=220&P=0",
   },
   {
     id: "water-supplier",
@@ -59,16 +64,18 @@ export const services = [
     ratePerHour: 129,
     sortOrder: 6,
     illustrationKey: "water-supplier",
+    image: "https://tse2.mm.bing.net/th/id/OIP.D6aYoXVlWgDHIRAiNVp0mAHaD2?pid=Api&h=220&P=0",
   },
   {
     id: "home-taker",
-    title: "Home Taker",
+    title: "Care Taker",
     icon: "🏠",
     description: "Home care, daily help, and household support.",
     color: "#ec4899",
     ratePerHour: 189,
     sortOrder: 7,
     illustrationKey: "home-taker",
+    image: "https://tse2.mm.bing.net/th/id/OIP._JH9vGV2DSEleE2lPmFTmQHaEy?pid=Api&h=220&P=0",
   },
 ];
 

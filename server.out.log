@@ -1,0 +1,7 @@
+◇ injected env (3) from .env // tip: ⌘ override existing { override: true }
+🚀 Server running on port 5000
+🌐 Listening on 0.0.0.0:5000
+MongoDB is connected
+[HTTP] POST /api/user/login 400 30ms
+[HTTP] POST /api/auth/login 200 286ms
+[HTTP] POST /api/auth/login 200 139ms

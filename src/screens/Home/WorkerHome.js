@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Alert, FlatList, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
+import ProfileAvatar from "../../components/ProfileAvatar";
 import { apiGet, apiPut, getApiErrorMessage, unwrapApiResponse } from "../../utils/api";
 import { connectAppSocket, disconnectAppSocket } from "../../utils/socket";
+import { resolveProfileImage } from "../../utils/profileImage";
 
 const formatMoney = (value) => `₹${Number(value || 0).toFixed(0)}`;
 
@@ -29,6 +31,8 @@ export default function WorkerHomeScreen({ navigation, onLogout }) {
   const [statusBusy, setStatusBusy] = useState(false);
 
   const isOnline = Boolean(workerProfile?.isOnline);
+  const displayName = workerProfile?.name || currentUser?.name || "Worker";
+  const displayImage = resolveProfileImage(workerProfile || currentUser || {}, displayName);
   const availableBookings = useMemo(
     () => bookings.filter(Boolean).slice(0, 6),
     [bookings]
@@ -173,23 +177,34 @@ export default function WorkerHomeScreen({ navigation, onLogout }) {
         <View style={styles.heroTopRow}>
           <View>
             <Text style={styles.brand}>Fixora Worker</Text>
-            <Text style={styles.title}>{workerProfile?.name || currentUser?.name || "Worker"}</Text>
+            <Text style={styles.title}>{displayName}</Text>
             <Text style={styles.subtitle}>
               {isOnline ? "You are online and ready for new jobs." : "Go online to receive live bookings."}
             </Text>
           </View>
-          <Pressable
-            onPress={toggleStatus}
-            style={({ pressed }) => [styles.statusButton, isOnline && styles.statusButtonOnline, pressed && styles.pressed]}
-          >
-            {statusBusy ? (
-              <ActivityIndicator color={isOnline ? "#14532d" : "#0f172a"} />
-            ) : (
-              <Text style={[styles.statusButtonText, isOnline && styles.statusButtonTextOnline]}>
-                {isOnline ? "Online" : "Offline"}
-              </Text>
-            )}
-          </Pressable>
+          <View style={styles.heroRight}>
+            <ProfileAvatar
+              name={displayName}
+              imageUri={displayImage}
+              size={60}
+              borderRadius={20}
+              backgroundColor="#ffffff"
+              fallbackColor="#12352d"
+              showRing={false}
+            />
+            <Pressable
+              onPress={toggleStatus}
+              style={({ pressed }) => [styles.statusButton, isOnline && styles.statusButtonOnline, pressed && styles.pressed]}
+            >
+              {statusBusy ? (
+                <ActivityIndicator color={isOnline ? "#14532d" : "#0f172a"} />
+              ) : (
+                <Text style={[styles.statusButtonText, isOnline && styles.statusButtonTextOnline]}>
+                  {isOnline ? "Online" : "Offline"}
+                </Text>
+              )}
+            </Pressable>
+          </View>
         </View>
 
         <View style={styles.heroMetricsRow}>
@@ -302,6 +317,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: 16,
+  },
+  heroRight: {
+    alignItems: "flex-end",
+    gap: 10,
   },
   brand: {
     color: "#dcfce7",

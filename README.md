@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Fixora
 
 Expo + React Native UI for a labour/service booking app.
@@ -57,4 +58,13 @@ Backend integration is intentionally removed from the UI layer for now. See the 
 # labourappfrontend
 # labourappfrontend
 # labourappfrontend
+# labour-appfrontend
+=======
+# labour-app
+<<<<<<< HEAD
+# labour-app
+=======
+>>>>>>> 207695f47017902d6e0a61522c9fa0576d2add8b
+# labour-app
+>>>>>>> 9df2ae61278859ec3305557de705aacfe241a772
 # labour-appfrontend
